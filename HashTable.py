@@ -1,16 +1,36 @@
 class HashTable:
-    def __init__(self, size = 16):
-        self.map = [None] * size
+    """"Creates a hash table of size 16. This hash table handles collisions using chaining."""
+    def __init__(self):
+        self.PACKAGES = 16
 
-    def __get_hash(self, key):
-        pass
+        # Creates an array of arrays of the size of PACKAGES.
+        self.array = [[] for i in range(self.PACKAGES)]
 
-    def addToHash(self, key, value):
-        pass
+    def get_hash(self, key):
+        hash_value = 0
+        for char in key:
+            hash_value += ord(char)
+        return hash_value % self.PACKAGES
 
-    def getHash(self, key):
-        pass
+    def __setitem__(self, key, value):
+        hash_val = self.get_hash(key)
+        found = False
+        for id, element in enumerate(self.array[hash_val]):
+            if element[0] == key and len(element) == 2:
+                self.array[hash_val][id] = (key,value)
+                found = True
+                break
+        if not found:
+            self.array[hash_val].append((key,value))
 
-    def delete(self, key):
-        pass
+    def __getitem__(self, key):
+        hash_val = self.get_hash(key)
+        for element in self.array[hash_val]:
+            if element[0] == key:
+                return element[1]
 
+    def __delitem__(self, key):
+        hash_val = self.get_hash(key)
+        for index, key_value in enumerate(self.array[hash_val]):
+            if key_value[0] == key:
+                del self.array[hash_val][index]
