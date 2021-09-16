@@ -12,24 +12,24 @@ class HashTable:
             hash_value += ord(char)
         return hash_value % self.PACKAGES
 
-    def __setitem__(self, key, value):
+    def set_item(self, key, value):
         hash_val = self.get_hash(key)
         found = False
-        for id, element in enumerate(self.array[hash_val]):
+        for index, element in enumerate(self.array[hash_val]):
             if element[0] == key and len(element) == 2:
-                self.array[hash_val][id] = (key,value)
+                self.array[hash_val][index] = (key,value)
                 found = True
                 break
         if not found:
             self.array[hash_val].append((key,value))
 
-    def __getitem__(self, key):
+    def get_item(self, key):
         hash_val = self.get_hash(key)
         for element in self.array[hash_val]:
             if element[0] == key:
                 return element[1]
 
-    def __delitem__(self, key):
+    def delete_item(self, key):
         hash_val = self.get_hash(key)
         for index, key_value in enumerate(self.array[hash_val]):
             if key_value[0] == key:
