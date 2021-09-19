@@ -1,6 +1,3 @@
-import HashTable
-
-
 class Truck:
 
     truck_speed = 18 / 60

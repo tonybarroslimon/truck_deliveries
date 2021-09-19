@@ -1,5 +1,5 @@
 import csv
-from HashTable import HashTable
+from Models.HashTable import HashTable
 
 
 class Package:
