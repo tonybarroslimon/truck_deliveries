@@ -5,7 +5,7 @@ class HashTable:
         self.PACKAGES = 16
 
         # Creates an array of arrays of the size of PACKAGES.
-        self.array = [[] for i in range(self.PACKAGES)]
+        self.array = [None for i in range(self.PACKAGES)]
 
     # Creates the hash instance using the asci values of the characters in the key value
     def get_hash(self, key):
