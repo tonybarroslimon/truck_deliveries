@@ -16,6 +16,8 @@ class App:
         self.truck1 = Truck1()
         self.truck2 = Truck2()
         self.truck3 = Truck3()
+        # creates an instance of a Distance object
+        self.distance = Distance()
         # creates a list with 41 items set to None.
         self.package_deliveries = [None for i in range(41)]
         # adds an item to the package hash table
@@ -28,5 +30,13 @@ class App:
         del self.truck1
         del self.truck2
         del self.truck3
+        del self.distance
+
+    # method to finding the total distance traveled of the three trucks.
+    def get_total_distance(self):
+        return float(self.truck1.truck_distance + self.truck2.truck_distance + self.truck3.truck_distance)
+
+
+
 
 
