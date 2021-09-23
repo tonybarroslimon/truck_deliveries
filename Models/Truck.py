@@ -1,7 +1,5 @@
 class Truck:
 
-    truck_speed = 18 / 60
-
     def __init__(self):
         self.truck_distance = 0.0
         self.truck_destinations = []
