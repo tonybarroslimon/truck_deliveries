@@ -6,7 +6,7 @@ class Truck:
         self.packages = []
         self.priority = []
         self.priority_destinations = []
-        self.pos = 0
+        self.pos = '0'
         self.curr_pos = 0.0
         self.goal = 0.0
         self.returned = False
