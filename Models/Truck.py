@@ -18,8 +18,8 @@ class Truck1(Truck):
 
     def __init__(self):
         Truck.__init__(self)
-        self.early_packages = [13, 14, 15, 16, 29, 30, 31, 34, 37, 40, 1, 4, 7, 39, 8, 32]
-        self.early_priority = [13, 14, 15, 16, 29, 30, 31, 34, 37, 40]
+        self.packages = [13, 14, 15, 16, 29, 30, 31, 34, 37, 40, 1, 4, 7, 39, 8, 32]
+        self.priority = [13, 14, 15, 16, 29, 30, 31, 34, 37, 40]
         self.late_packages = [9, 19, 27, 28, 33, 35, 2, 5]
         self.late_priority = []
 
