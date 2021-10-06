@@ -11,6 +11,7 @@ class Truck:
         self.truck_goal = 0.0
         self.truck_returned = False
         self.truck_departed = False
+        self.truck_next = None
 
     def get_truck_distance(self):
         return self.truck_distance

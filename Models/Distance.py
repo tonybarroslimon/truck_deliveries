@@ -26,15 +26,13 @@ class Distance:
         closest_location = None
 
         for stop in stops:
-            if self.distance_data[start_location][stops.index(stop)] != "":
+            if float(stops.index(stop)) < start_location:
+                if (float(self.distance_data[start_location][stops.index(stop)]) < float(closest_distance)) and (str(stop) in stops):
+                    closest_location = str(stop)
+                    closest_distance = self.distance_data[start_location][stops.index(stop)]
 
-                if float(stops.index(stop)) < start_location:
-                    if (float(self.distance_data[start_location][stops.index(stop)]) < float(closest_distance)) and (str(stop) in stops):
-                        closest_location = str(stop)
-                        closest_distance = self.distance_data[start_location][stops.index(stop)]
-
-                if float(stops.index(stop)) > start_location:
-                    if (float(self.distance_data[stops.index(stop)][start_location]) < float(closest_distance)) and str(stop) in stops:
-                        closest_location = str(stop)
-                        closest_distance = self.distance_data[stops.index(stop)][start_location]
+            if float(stops.index(stop)) > start_location:
+                if (float(self.distance_data[stops.index(stop)][start_location]) < float(closest_distance)) and str(stop) in stops:
+                    closest_location = str(stop)
+                    closest_distance = self.distance_data[stops.index(stop)][start_location]
         return closest_location, closest_distance
