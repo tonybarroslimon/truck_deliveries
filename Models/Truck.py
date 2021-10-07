@@ -22,6 +22,8 @@ class Truck1(Truck):
         self.priority = [13, 14, 15, 16, 29, 30, 31, 34, 37, 40]
         self.late_packages = [9, 19, 27, 28, 33, 35, 2, 5]
         self.late_priority = []
+        self.late_destinations = []
+        self.late_priority_destinations = []
 
 
 class Truck2(Truck):
