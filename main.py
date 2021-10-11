@@ -1,16 +1,29 @@
-# This is a sample Python script.
+from app import App
+import sys
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+print("Name: Tony Barros-Limon")
+print("Student ID: 000950459")
 
+simulation = App()
+simulation.run_simulation("18:00")
+print(f"All packages were delivered in {simulation.get_total_distance()} miles.")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+while True:
+    print("\n1. Package Search")
+    print("2. Check Current Simulation State")
+    print("3. Exit Application")
+    choice = input("\nPlease make a selection: ")
 
+    if choice == '1':
+        del simulation
+        simulation = App()
+        simulation.run_simulation(input("\nEnter time in 'HH:MM' format: "))
+        simulation.simulation_output(input("Enter package ID: "))
+    if choice == '2':
+        del simulation
+        simulation = App()
+        simulation.run_simulation(input("\nEnter time in 'HH:MM' format: "))
+        simulation.simulation_output()
+    if choice == '3':
+        sys.exit()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/

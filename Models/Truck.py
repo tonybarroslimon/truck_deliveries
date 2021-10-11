@@ -8,7 +8,7 @@ class Truck:
         self.priority_destinations = []
         self.pos = '0'
         self.curr_pos = 0.0
-        self.goal = 0.0
+        self.goal = round(0.0, 1)
         self.returned = False
         self.departed = False
         self.next = None
@@ -22,8 +22,7 @@ class Truck1(Truck):
         self.priority = [13, 14, 15, 16, 29, 30, 31, 34, 37, 40]
         self.late_packages = [9, 19, 27, 28, 33, 35, 2, 5]
         self.late_priority = []
-        self.late_destinations = []
-        self.late_priority_destinations = []
+        self.late_departed = False
 
 
 class Truck2(Truck):
