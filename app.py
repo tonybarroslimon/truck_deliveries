@@ -191,11 +191,11 @@ class App:
                     package.append(str(self.package_deliveries[index]))
                     package.append("Delivered")
                 elif int(index) in self.truck1.packages and self.truck1.departed:
-                    package.append("Out for Delivery")
+                    package.append("En Route")
                 elif int(index) in self.truck2.packages and self.truck2.departed:
-                    package.append("Out for Delivery")
+                    package.append("En Route")
                 else:
-                    package.append("At Hub")
+                    package.append("At The Hub")
                 print(package)
                 package.pop()
         else:
