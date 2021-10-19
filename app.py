@@ -1,5 +1,4 @@
-from Models.HashTable import HashTable
-from Models.Truck import Truck, Truck1, Truck2
+from Models.Truck import Truck, Truck1, Truck2, Truck3
 from Models.Package import Package
 from Models.Distance import Distance
 import datetime
@@ -12,26 +11,23 @@ class App:
         self.speed = 18 / 60
         # creates a hash table of packages from the Package class
         self.packages = Package().package_hash
-        # creates two truck instances
+        # creates truck instances
         self.truck1 = Truck1()
         self.truck2 = Truck2()
+        self.truck3 = Truck3()
         # creates an instance of a Distance object
         self.distances = Distance()
-        # creates a list with 41 items set to None.
         self.package_deliveries = [None for i in range(41)]
         self.simulation_end = None
         self.current_time = None
 
     def reset(self):
-        # deletes the objects created when App is constructed.
-        del self.packages
-        del self.truck1
-        del self.truck2
-        del self.distances
+        pass
+        #self.packages.set_item("9", ['9','300 State St','Salt Lake City','UT','84103','EOD','2','Wrong address listed'])
 
-    # method to finding the total distance traveled of the three trucks.
+    # method to finding the total distance traveled.
     def get_total_distance(self):
-        return float(self.truck1.distance + self.truck2.distance)
+        return float(self.truck1.distance + self.truck2.distance + self.truck3.distance)
 
     # Method to build the delivery locations for each truck
     def load_packages(self, packages, priority, destinations, priority_destinations):
@@ -87,14 +83,15 @@ class App:
             truck.pos = truck.next[0]
             self.unload_packages(truck.packages, truck.priority, truck.pos)
             truck.destinations.remove(truck.next[0])
+
             if truck.next[0] in truck.priority_destinations:
                 truck.priority_destinations.remove(truck.next[0])
 
-            if len(truck.priority_destinations) > 0:
+            if truck.priority_destinations:
                 truck.next = Distance().next_closest_stop(truck.pos, truck.priority_destinations)
-            elif len(truck.destinations) > 0:
+            elif truck.destinations:
                 truck.next = Distance().next_closest_stop(truck.pos, truck.destinations)
-            elif len(truck.destinations) < 1 and truck.next[0] != 0:
+            elif not truck.destinations and truck.next[0] != 0:
                 truck.destinations.append(0)
                 truck.next = (0, Distance().distance_home(truck.pos))
             truck.goal = float(truck.next[1])
@@ -105,37 +102,13 @@ class App:
             truck.returned = True
             truck.departed = False
 
-    def load_and_depart(self, truck, late):
-        if not late:
-            self.load_packages(
-                truck.packages,
-                truck.priority,
-                truck.destinations,
-                truck.priority_destinations
-            )
-            self.set_initial_destination(truck)
-            truck.departed = True
-            truck.returned = False
-        else:
-            truck.packages.clear()
-            truck.priority.clear()
-
-            for items in truck.late_packages:
-                truck.packages.append(items)
-
-            for priority_items in truck.late_priority:
-                truck.priority.append(priority_items)
-
-            self.load_packages(
-                truck.late_packages,
-                truck.late_priority,
-                truck.destinations,
-                truck.priority_destinations
-            )
-            self.set_initial_destination(truck)
-            truck.departed = True
-            truck.returned = False
-            truck.late_departed = True
+    def load(self, truck):
+        self.load_packages(
+            truck.packages,
+            truck.priority,
+            truck.destinations,
+            truck.priority_destinations
+        )
 
     # method updates the current position and the distance to the next location
     def update_pos_and_distance(self, truck):
@@ -150,36 +123,46 @@ class App:
         self.simulation_end = datetime.datetime.strptime(time, '%H:%M').time()
         self.current_time = datetime.datetime.strptime('08:00', '%H:%M')
 
-        self.load_and_depart(self.truck1, False)
+        self.load(self.truck1)
+        self.load(self.truck2)
+        self.load(self.truck3)
 
-        while not (self.truck1.returned and self.truck2.returned) or self.current_time.time() <= self.simulation_end:
+        self.set_initial_destination(self.truck1)
+        self.set_initial_destination(self.truck2)
+        self.set_initial_destination(self.truck3)
+
+        self.truck1.departed = True
+        self.truck1.returned = False
+
+        while not (self.truck1.returned and self.truck2.returned and self.truck3.returned) or self.current_time.time() >= self.simulation_end:
 
             # Increments the current time by one minute each loop
             self.current_time += datetime.timedelta(minutes=1)
 
-            # checks if the truck has returned. If it has, it updates the returned bool and updates the departed bool
-            self.update_truck_returned(self.truck1)
-
             # Checks the time, if it is after 9:05AM, then it loads the packages to the second truck and departs
-            if self.current_time.time() == datetime.datetime.strptime("09:05:00", "%H:%M:%S").time():
-                self.load_and_depart(self.truck2, False)
-
-            self.update_truck_returned(self.truck2)
+            if not self.truck2.returned and self.current_time.time() >= datetime.datetime.strptime("09:05:00", "%H:%M:%S").time():
+                self.truck2.departed = True
 
             # checks if truck1 has returned and if the time is after 10:20AM. If so it loads the truck and departs
-            if not self.truck1.late_departed and self.truck1.returned and self.current_time.time() >= datetime.datetime.strptime("10:20:00", "%H:%M:%S").time():
+            if not self.truck3.returned and self.truck1.returned and self.current_time.time() >= datetime.datetime.strptime("10:20:00", "%H:%M:%S").time():
                 self.packages.set_item("9", ["9", "410 S State St", "Salt Lake City", "UT", "84111", "EOD", "2", "None"])
-                self.load_and_depart(self.truck1, True)
+                self.truck3.departed = True
 
-            self.update_pos_and_distance(self.truck1)
-            self.set_truck_destinations(self.truck1)
+            if self.truck1.departed:
+                self.update_pos_and_distance(self.truck1)
+                self.set_truck_destinations(self.truck1)
 
             if self.truck2.departed:
                 self.update_pos_and_distance(self.truck2)
                 self.set_truck_destinations(self.truck2)
 
+            if self.truck3.departed:
+                self.update_pos_and_distance(self.truck3)
+                self.set_truck_destinations(self.truck3)
+
             self.update_truck_returned(self.truck1)
             self.update_truck_returned(self.truck2)
+            self.update_truck_returned(self.truck3)
 
     def simulation_output(self, hash_id=None):
         package = []
@@ -196,7 +179,6 @@ class App:
                     package.append("En Route")
                 else:
                     package.append("At The Hub")
-                print(package)
                 package.pop()
         else:
             package = self.packages.get_item(str(hash_id))
@@ -210,6 +192,5 @@ class App:
                 package.append("Out for Delivery")
             else:
                 package.append("At Hub")
-            print(package)
             package.pop()
         return

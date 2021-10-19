@@ -8,7 +8,7 @@ class Truck:
         self.priority_destinations = []
         self.pos = '0'
         self.curr_pos = 0.0
-        self.goal = round(0.0, 1)
+        self.goal = 0.0
         self.returned = False
         self.departed = False
         self.next = None
@@ -20,9 +20,6 @@ class Truck1(Truck):
         Truck.__init__(self)
         self.packages = [13, 14, 15, 16, 29, 30, 31, 34, 37, 40, 1, 4, 7, 39, 8, 32]
         self.priority = [13, 14, 15, 16, 29, 30, 31, 34, 37, 40]
-        self.late_packages = [9, 19, 27, 28, 33, 35, 2, 5]
-        self.late_priority = []
-        self.late_departed = False
 
 
 class Truck2(Truck):
@@ -31,3 +28,11 @@ class Truck2(Truck):
         Truck.__init__(self)
         self.packages = [3, 18, 36, 38, 6, 10, 11, 12, 17, 20, 21, 22, 23, 24, 25, 26]
         self.priority = [6, 20, 25]
+
+
+class Truck3(Truck):
+
+    def __init__(self):
+        Truck.__init__(self)
+        self.packages = [9, 19, 27, 28, 33, 35, 2, 5]
+        self.priority = []
