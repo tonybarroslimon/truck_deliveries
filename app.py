@@ -49,11 +49,11 @@ class App:
                 removal_list.append(index)
                 self.package_deliveries[index] = self.current_time.time()
 
-            for item in removal_list:
-                if item in packages:
-                    packages.remove(item)
-                if item in priority:
-                    priority.remove(item)
+        for item in removal_list:
+            if item in packages:
+                packages.remove(item)
+            if item in priority:
+                priority.remove(item)
 
     # Sets the initial next destination for a truck
     # If there is a priority package on the truck, then the method will choose the closest priority package
@@ -134,7 +134,7 @@ class App:
         self.truck1.departed = True
         self.truck1.returned = False
 
-        while not (self.truck1.returned and self.truck2.returned and self.truck3.returned) or self.current_time.time() >= self.simulation_end:
+        while not (self.truck1.returned and self.truck2.returned and self.truck3.returned or self.current_time.time() >= self.simulation_end):
 
             # Increments the current time by one minute each loop
             self.current_time += datetime.timedelta(minutes=1)
@@ -179,6 +179,7 @@ class App:
                     package.append("En Route")
                 else:
                     package.append("At The Hub")
+                print(package)
                 package.pop()
         else:
             package = self.packages.get_item(str(hash_id))
@@ -192,5 +193,6 @@ class App:
                 package.append("Out for Delivery")
             else:
                 package.append("At Hub")
+            print(package)
             package.pop()
         return

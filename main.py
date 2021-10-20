@@ -8,7 +8,6 @@ print("IDE: PyCharm 2021.2.1 (Professional Edition)")
 
 simulation = App()
 simulation.run_simulation("22:00")
-simulation.simulation_output()
 print(f"\nAll packages were delivered in {simulation.get_total_distance()} miles.")
 
 while True:
