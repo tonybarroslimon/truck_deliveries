@@ -21,10 +21,6 @@ class App:
         self.simulation_end = None
         self.current_time = None
 
-    def reset(self):
-        pass
-        #self.packages.set_item("9", ['9','300 State St','Salt Lake City','UT','84103','EOD','2','Wrong address listed'])
-
     # method to finding the total distance traveled.
     def get_total_distance(self):
         return float(self.truck1.distance + self.truck2.distance + self.truck3.distance)

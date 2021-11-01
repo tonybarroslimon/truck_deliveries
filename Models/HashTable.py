@@ -1,5 +1,9 @@
 class HashTable:
-    """"Creates a hash table and handles collisions using chaining"""
+
+    # Creates a hash table and handles collisions using chaining
+    # The hashtable was inspired by the code in this project:
+    # https://github.com/codebasics/data-structures-algorithms-python/blob/master/data_structures/4_HashTable/4_HashTable.ipynb
+
     def __init__(self):
         # Maximum number of packages that can be placed in a truck.
         self.PACKAGES = 45
